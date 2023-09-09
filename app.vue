@@ -12,5 +12,6 @@
 .red {
   @apply bg-red-100;
   @apply p-4;
+  @apply m-4;
 }
 </style>
