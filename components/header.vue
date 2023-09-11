@@ -11,17 +11,17 @@
 
 <script setup>
 
-  let menuTrigger = true
-  // let numberTest = 0
+  let menuTrigger = ref(true)
+  let numberTest = ref(0)
   // let numberTest = useState('numberTest')
 
   const funkcja = function(){
-   menuTrigger = !menuTrigger
+   menuTrigger.value = !menuTrigger.value
    console.log(menuTrigger)
   }
 
   const dodawanie = function(){
-    numberTest +=1;
+    numberTest.value +=1;
     console.log(numberTest)
   }
 
