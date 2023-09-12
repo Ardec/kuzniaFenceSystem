@@ -1,6 +1,7 @@
 <template>
   <div>
     <Header />
+    <Sidebar />
     <h1>Hello World {{ $route.params.code }}</h1>
     <CategorySection />
   </div>
@@ -9,4 +10,5 @@
 <script setup>
 const products = myData();
 console.log(products);
+
 </script>
