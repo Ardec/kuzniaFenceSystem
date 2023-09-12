@@ -2,33 +2,13 @@
   <div class="header-container">
           <div class="menu-icon-container">
       <img @click="openCloseMenu()" class="menu-icon" src="~/assets/menuOpen.png" alt="open menu"></div>
-      <!-- {{menuTrigger}} -->
-      {{buttonState}}
-      <button @click="dodawanie()">dodaj</button>{{numberTest}}
-
-
   </div>
 </template>
 
+
 <script setup>
-
-  let menuTrigger = ref(true)
-  let numberTest = ref(0)
-  const buttonState = useState('sidebarTrigger',() => false) // init useState reative multicomponent variable
-
-  const funkcja = function(){
-   menuTrigger.value = !menuTrigger.value
-   console.log(menuTrigger)
-  }
-    const openCloseMenu = function(){
-   buttonState.value = !buttonState.value
-   console.log(buttonState.value)
-  }
-
-  const dodawanie = function(){
-    numberTest.value +=1;
-    console.log(numberTest)
-  }
+ import useMenu from "~/composables/useMenu";
+ const { menuIsOpen, openCloseMenu } = useMenu()
 
 </script>
 

@@ -2,6 +2,12 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
-    '@nuxtjs/tailwindcss'
-  ]
+    '@nuxtjs/tailwindcss',
+    'nuxt-mdi'
+  ],
+  mdi: {
+    cache: false,
+    componentName: 'MdiIcon',
+    defaultSize: '1em'
+  },
 })
