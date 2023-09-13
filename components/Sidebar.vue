@@ -18,11 +18,11 @@
           <div v-for="item in categories" :key="item.name" class="pointer">
 
           <NuxtLink :to="item.url">
-               <div class="menu-item ml-2 my-1">
+               <div class="menu-item ml-3 my-1 py-2.5">
             <div class="menu-item-icon">
-              <MdiIcon class="text-blue-700" size="32px" :icon="item.mdi_icon" />
+              <MdiIcon class="" size="28px" :icon="item.mdi_icon" />
             </div>
-            <div class="menu-item-text text-lg leading-6 pl-3 font-light">
+            <div class="menu-item-text text-base leading-6 pl-2 font-light">
               {{item.name}}
             </div>
           </div>
@@ -97,6 +97,12 @@ transition: width 2s;
   width:100%;
   display: flex;
   align-items: center;
+}
+.menu-item:hover{
+  color:#1369A8;
+}
+.menu-icon{
+  color:#1369A8;
 }
 
   /* <div class="sidebar-middle">
