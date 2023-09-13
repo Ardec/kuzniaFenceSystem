@@ -18,6 +18,8 @@
          <button :class="{ 'disabled-button': !item.is_enabled }" class="btn">
             <span v-if="item.is_enabled" >Projektuj</span>
             <span v-else >Wkrótce</span>
+
+      
           </button>
         </div>
     </div>
@@ -72,7 +74,6 @@ position:relative;
   height: 160px;
   background-size: cover;
   border-radius:8px;
-  
 }
 .item-text{
   display:flex-inline;
