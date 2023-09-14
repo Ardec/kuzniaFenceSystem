@@ -50,7 +50,7 @@ const { menuIsOpen, openCloseMenu } = useMenu();
 <style scoped lang="postcss">
 .sidebar-container
 {
-position:fixed;
+position:absolute;
 display:flex;
 flex-direction: column;
 bottom: 0;

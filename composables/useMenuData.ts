@@ -10,7 +10,7 @@ export default function useMenuData(): { categories: Category[] } {
     {
       name: "Strona główna",
       mdi_icon: "mdiHome",
-      url: "/index"
+      url: "/"
     },
     {
       name: "Panele",
