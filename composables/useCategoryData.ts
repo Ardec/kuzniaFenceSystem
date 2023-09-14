@@ -1,5 +1,5 @@
 import img_1 from '~/assets/fences_1.png';
-import img_2 from '~/assets/fences_1.png';
+import img_2 from '~/assets/fences_2.png';
 
 
 type Category = {
