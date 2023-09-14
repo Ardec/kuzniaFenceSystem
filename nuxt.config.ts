@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
-    'nuxt-mdi'
+    'nuxt-mdi',
   ],
   mdi: {
     cache: false,

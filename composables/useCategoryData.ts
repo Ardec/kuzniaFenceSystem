@@ -1,3 +1,6 @@
+import img_1 from '~/assets/fences_1.png';
+import img_2 from '~/assets/fences_1.png';
+
 
 type Category = {
   name: string;
@@ -10,13 +13,13 @@ export default function useCategoryData(): { categories: Category[] } {
   const categories: Category[] = [
     {
       name: "Przęsła ogrodzeniowe",
-      photo_url: "/_nuxt/assets/fences_1.png",
+      photo_url: img_1,
       link_url: "/index",
       is_enabled: true,
     },
     {
       name: "Ramy bram i furtek",
-      photo_url: "/_nuxt/assets/fences_2.png",
+      photo_url: img_2,
       link_url: "www.wp.pl",
       is_enabled: false,
     },
