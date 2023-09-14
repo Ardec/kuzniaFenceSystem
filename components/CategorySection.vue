@@ -10,6 +10,7 @@
       <div v-for="item in categories" :key="item.name" class="item">
         <!-- <div class="item-container" :style="{ backgroundImage: 'url(' + item.photo_url + ')' }"> -->
         <div :class="{ 'disabled-category': !item.is_enabled }" class="item-container" alt="Image" :style="{ 'background-image': 'url(' + item.photo_url + ')' }">
+          <img class="side-logo" :src='"~/assets/"+item.photo_url+""' alt="open menu">
            <div class="item-text">
           {{item.name}}
           <!-- <img src="~/assets/kuznia-logo.png" alt="Discover Nuxt 3" /> -->
@@ -18,8 +19,6 @@
          <button :class="{ 'disabled-button': !item.is_enabled }" class="btn">
             <span v-if="item.is_enabled" >Projektuj</span>
             <span v-else >Wkrótce</span>
-
-      
           </button>
         </div>
     </div>
