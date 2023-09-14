@@ -18,7 +18,7 @@ export default function useCategoryData(): { categories: Category[] } {
       is_enabled: true,
     },
     {
-      name: "Ramy bram i furtek",
+      name: "Bramy przesuwne",
       photo_url: img_2,
       link_url: "/index",
       is_enabled: false,

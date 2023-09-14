@@ -3,21 +3,15 @@
 <template>
   <div class="main-container py-3 pl-6">
     <div class="header-container">
-      <div class="text-container font-sans">dodaj element</div>
+      <div class="text-container font-sans">Inspiracje</div>
       <div class="graphic-container"></div>
     </div>
     <div class="main-section-container">
-      <div v-for="item in categories" :key="item.name" class="item">
-        <div :class="{ 'disabled-category': !item.is_enabled }" class="item-container" alt="Image" :style="{ 'background-image': 'url(' + item.photo_url + ')' }">
+      <div v-for="item in gallery" :key="item.name" class="item">
+        <div class="item-container" alt="Image" :style="{ 'background-image': 'url(' + item.photo_url + ')' }">
            <div class="item-text">
-          {{item.name}}
         </div>
         </div>
-         <NuxtLink to="/fences"><button :class="{ 'disabled-button': !item.is_enabled }" class="btn">
-            <span v-if="item.is_enabled" >Projektuj</span>
-            <span v-else >Wkrótce</span>
-          </button>
-         </NuxtLink>
         </div>
     </div>
   </div>
@@ -25,8 +19,8 @@
 
 <script setup>
 
-import useCategoryData from "~/composables/useCategoryData"
-const { categories } = useCategoryData()
+import useGalleryData from "~/composables/useGalleryData"
+const { gallery } = useGalleryData()
 
 </script>
 
@@ -60,16 +54,14 @@ text-transform:uppercase;
 }
 
 .item{
-/* background-color: gray; */
 min-width: 300px;
 width: 300px;
-height: 190px;
 border-radius: 8px;
 position:relative;
 }
 .item-container{
-  height: 160px;
   background-size: cover;
+  height: 202px;
   border-radius:8px;
 }
 .item-text{
@@ -101,23 +93,7 @@ right:20px;
   opacity:0.9;
 }
 
-.disabled-category {
-    opacity: 0.7;
-}
-.disabled-button {
-background: var(--secondary-color-30, #3F3E3F);
-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); 
-opacity:0.7;
-}
-  /* .btn {
-    @apply font-bold py-2 px-4 rounded;
-  }
-  .btn-blue {
-    @apply bg-blue-500 text-white;
-  }
-  .btn-blue:hover {
-    @apply bg-blue-700;
-  } */
+
 
 </style>
 

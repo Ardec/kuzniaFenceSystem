@@ -1,7 +1,9 @@
 <template>
 <div class=„bg-blue-500”>
+     <Header />
+    <Sidebar />
 <slot />
- <h1>DEFAULT LAYOUT</h1>
+ <!-- <h1>DEFAULT LAYOUT</h1> -->
 </div>
 </template>
 
