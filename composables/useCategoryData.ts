@@ -20,7 +20,7 @@ export default function useCategoryData(): { categories: Category[] } {
     {
       name: "Ramy bram i furtek",
       photo_url: img_2,
-      link_url: "www.wp.pl",
+      link_url: "/index",
       is_enabled: false,
     },
     // {

@@ -65,11 +65,13 @@ transition: width 2s;
 z-index:99;
 }
 .sidebar-header{
+  height: 100px;
   width:100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding:0px 32px 0px 16px;
+  z-index:99;
 }
 .sidebar-middle
 {
