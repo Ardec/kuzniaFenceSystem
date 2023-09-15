@@ -2,7 +2,6 @@
   <div>
     <Transition name="slide-fade">
     <aside class="sidebar-container" v-show="menuIsOpen==true">
-      <div class="sidebar-container">
           <div class="sidebar-header">
         <div class="logo-container">
          <img class="side-logo" src="~/assets/kuznia-logo.png" alt="open menu">
@@ -29,8 +28,6 @@
           </NuxtLink>
         </div>
         </div>
-      </div>
-
       </div>
 
 
