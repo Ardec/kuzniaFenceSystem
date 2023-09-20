@@ -19,10 +19,12 @@
     </div>
       <div :style="'width:'+fenceWidth/10+'px;'" class="horizontal-text mx-12">{{fenceWidth}} mm</div>
       <div class="bottom-navigation m-4 flex">
-        <button class="add-btn text-white px-4 py-2 m-8"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button @click="openModal" class="add-btn text-white px-4 py-2 m-8"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="white"/>
 </svg> <span>Dodaj panel</span></button>
       </div>
+
+      <FenceModal :isOpen="isModalOpen" @updateIsOpen="handleModalUpdate"/>
 
   </div>
 </template>
@@ -60,6 +62,19 @@ const handleInput = (event: Event, type: String) => {
 
     }
 }
+
+const isModalOpen = ref(false);
+
+const openModal = () => {
+  isModalOpen.value = true;
+  console.log(isModalOpen.value);
+};
+
+const handleModalUpdate = (newValue: boolean) => {
+  isModalOpen.value = newValue;
+};
+
+
 </script>
 
 <style scoped>
