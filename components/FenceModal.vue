@@ -7,11 +7,10 @@
     :bodyText="'Przęsła Kuźnia można montować wewnątrz ram bramy przesuwnej, dwuskrzydłowej, furtki, balkonu, ramy na wymiar, bądź do samych słupów. Podaj najpierw szerokość oraz wysokość przęsła, które chcesz uzyskać.'"
     />
     <div class="one-piece-visual m-4">
-    <div class="panel" :style="'height:'+panelWidth/10+'px'">
+    <div class="panel" :style="{ height: panelWidth + 'px', backgroundColor: selectedPanel.hex }">
       <div class="container-height"><div class="piece-height" >{{panelWidth}} (mm)</div></div>
-      <div class="container-color"><div class="piece-color m-4">{{color}}</div></div>
+      <div class="container-color"><div class="piece-color m-4">{{selectedPanel.color}}</div></div>
     </div>
-    
     </div>
 
       <!-- <label>Szerokość panela:</label>
@@ -23,24 +22,19 @@
       </div>
       <div class="dimension-width mx-4 mt-2">
         <label for="color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Wybierz kolor (ral)</label>
-        <select id="color" v-model="color" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        <!-- <option value="7016 połysk">7016 połysk</option>
-        <option value="7016 struktura">7016 struktura</option>
-        <option value="9005 połysk">9005 połysk</option>
-        <option value="9005 struktura">9005 struktura</option> -->
-        <option 
+        <select id="color" v-model="selectedPanel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <option
       v-for="panel in panels" 
-      :key="panel.hex" 
-      :value="panel.hex">
+      :key="panel.color"
+      :value="panel">
       {{ panel.color }}
     </option>
       </select>
-
-      {{panels}}
+      Moj kolor {{selectedPanel.hex}}
       </div>
        <div class="dimension-width mx-4 mt-2">
             <label for="odstep" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Odstęp od następnego panela (mm)</label>
-            <input v-model="profileSpacing" type="number" id="odstep" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Szerokość" :min="fenceMinWidth" :max="fenceMaxWidth" @blur="handleInput($event, 'width')" required>
+            <input v-model="profileSpacing" type="number" id="odstep" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Szerokość" :min="fenceMinWidth" :max="fenceMaxWidth" @blur="handleInput($event, 'space')" required>
       </div>
       <div class="bottom-actions m-4 mt-8">
         <button class="add-btn text-white px-4 py-2" @click="addPanel">Zapisz</button>
@@ -67,9 +61,40 @@ const closeModal = () => {
 };
 
 
-const panelWidth = ref(2000)
-const color = ref('7016 struktura')
-const profileSpacing = ref(20)
+const panelWidth = ref<number>(2000)
+const selectedPanel = ref<object>(panels[0])
+const profileSpacing = ref<number>(20)
+
+const profileSpacingMinWidth = ref<number>(2)
+const proeileSpacingMaxWidth = ref<number>(300)
+const panelMinWidth = ref<number>(90)
+const panelMaxWidth = ref<number>(300)
+
+
+const handleInput = (event: Event, type: String) => {
+    if (!event.target) return;
+    const target = event.target as HTMLInputElement; // Konwersja targetu na HTMLInputElement, żeby uzyskać dostęp do właściwości value, min, max, itp.
+    const value = parseInt(target.value, 10);
+
+    if(type === 'width'){
+        console.log("width changed")
+          if (value < panelMinWidth.value) {
+    panelWidth.value = panelMinWidth.value
+  } else if (value > panelMaxWidth.value) {
+    panelWidth.value = panelMaxWidth.value
+  }
+
+    }
+       if(type === 'space'){
+        console.log("space changed")
+          if (value < profileSpacingMinWidth.value) {
+    profileSpacing.value = profileSpacingMinWidth.value
+  } else if (value > proeileSpacingMaxWidth.value) {
+    profileSpacing.value = proeileSpacingMaxWidth.value
+  }
+
+    }
+}
 
 </script>
 
@@ -110,8 +135,10 @@ text-transform: uppercase;
 .panel{
    width:100%;
    background-color: black;
-     display:flex;
-  justify-content: space-between;
+   display:flex;
+   justify-content: space-between;
+   min-height:90px;
+   max-height:300px;
 }
 .container-color{
   display:flex;
