@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Transition name="slide-fade">
+    <transition name="slide-fade">
     <aside class="sidebar-container" v-show="menuIsOpen==true">
           <div class="sidebar-header">
         <div class="logo-container">
@@ -32,7 +32,7 @@
 
 
     </aside>
-    </Transition>
+    </transition>
   </div>
 </template>
 
@@ -45,6 +45,11 @@ const { menuIsOpen, openCloseMenu } = useMenu();
 </script>
 
 <style scoped lang="postcss">
+.router-link-active{
+  color:#1369A8;
+  /* color:black; */
+  text-decoration: underline;
+}
 .sidebar-container
 {
 position:fixed;
@@ -53,7 +58,7 @@ flex-direction: column;
 bottom: 0;
 left: 0;
 width: 390px;
-min-height: 100vh;
+height: 100%;
 flex-shrink: 0;
 border-radius: 4px;
 background: #F0F0F0;
@@ -131,13 +136,13 @@ z-index:99;
 }
 
 .slide-fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: all 0.9s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translateX(-300px);
-  opacity: 0.1;
+  transform: translateX(-400px);
+  opacity: 0.6;
 }
 
 
