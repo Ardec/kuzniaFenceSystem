@@ -1,7 +1,6 @@
 <template>
   <div class="m-4">
     Component: Cart
-    <!-- {{ cart }} -->
   </div>
 </template>
 
