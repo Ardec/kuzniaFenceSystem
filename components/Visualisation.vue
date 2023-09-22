@@ -42,6 +42,8 @@ type singlePanel = {
   top_space: number,
 }
 
+
+
 const fence = ref<singlePanel[]>([])
 
 // draw wariables and min max of them
@@ -57,6 +59,12 @@ let fenceMaxWidth:Ref<number> = ref(2800)
 
 // modal logic
 const isModalOpen = ref(false);
+
+if (isModalOpen) {
+    document.body.style.overflow = 'hidden';
+} else {
+    document.body.style.overflow = '';
+}
 
 const openModal = () => {
   isModalOpen.value = true;
