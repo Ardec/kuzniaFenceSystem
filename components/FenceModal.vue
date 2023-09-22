@@ -37,6 +37,8 @@
       <div class="bottom-actions m-4 mt-8">
         <button class="add-btn text-white px-4 py-2" @click="addPanel">Zapisz</button>
         <button class="add-btn text-white px-4 py-2" @click="closeModal">Zamknij</button>
+        <Toast :visible="showToast" :message="'Nowy panel został dodany!'" @update:localVisible="updateLocalVisible"/>
+
       </div>
     </div>
   </div>
@@ -47,6 +49,8 @@ import usePanelData from "~/composables/usePanelData"
 import useCart from '~/composables/useCart'
 import { CartItem } from '~/composables/useCart'
 import { Panel } from '~/composables/usePanelData'
+const showToast = ref(false);
+
 const { cart } = useCart()
 
 console.log("my_cart",cart)
@@ -84,7 +88,12 @@ const closeModal = () => {
   emit('updateIsOpen', false);
 };
 
+const updateLocalVisible = (value: boolean) => {
+      showToast.value = value;
+    };
+
 const addPanel = () => {
+  showToast.value = true;
   const newCartItem: CartItem = {
     productId: selectedPanel.value.id,
     productName: selectedPanel.value.color,
@@ -98,7 +107,8 @@ const addPanel = () => {
 }
   cart.value.push(newCartItem)
   emit('addedPanel', newSinglePanel)
-}
+  
+};
 
 
 const handleInput = (event: Event, type: String) => {
