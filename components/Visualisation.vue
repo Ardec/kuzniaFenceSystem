@@ -1,4 +1,115 @@
 
+<script lang="ts" setup>
+
+// draw horizontal panels
+
+type singlePanel = {
+  id?: number,
+  height: number,
+  hex_color: string,
+  top_space: number,
+}
+
+
+
+const fence = ref<singlePanel[]>([])
+
+// draw wariables and min max of them
+
+let fenceHeight:Ref<number> = ref(1230)
+let fenceMinHeight:Ref<number> = ref(400)
+let fenceMaxHeight:Ref<number> = ref(2000)
+
+let fenceWidth:Ref<number> = ref(2500)
+let fenceMinWidth:Ref<number> = ref(400)
+let fenceMaxWidth:Ref<number> = ref(2800)
+
+
+// modal logic
+const isModalOpen = ref(false);
+
+if (isModalOpen.value) {
+    document.body.style.overflow = 'hidden';
+} else {
+    document.body.style.overflow = '';
+}
+
+const openModal = () => {
+  isModalOpen.value = true;
+  console.log(isModalOpen.value);
+};
+
+const handleModalUpdate = (newValue: boolean) => {
+  isModalOpen.value = newValue;
+  console.log(isModalOpen.value);
+};
+
+const addpanel = (newValue: singlePanel) => {
+   const totalHeight = fence.value.reduce((sum, panel) => sum + panel.height + panel.top_space, 0) + newValue.height + newValue.top_space;
+  // Sprawdź czy przekracza wartość z inputa
+  if(totalHeight > fenceMaxHeight.value)
+  {
+    window.alert("Całkowita wysokość przęsła przekracza warunki techniczne")
+    return;
+  }
+
+  if (totalHeight > fenceHeight.value) {
+    // Jeśli tak, wyświetl alert z opcjami
+    const decision = window.confirm("Całkowita wysokość paneli i przerw przekracza wielkość przęsła. Czy chcesz powiększyć przęsło?");
+
+    if (decision) {
+      // Jeśli użytkownik zdecyduje się powiększyć przęsło, zaktualizuj wartość inputa
+      fenceHeight.value = totalHeight;
+      fence.value.push(newValue);
+    } else {
+      // Jeśli użytkownik zdecyduje się anulować dodawanie panela, nie rób nic
+      return;
+    }
+  } else {
+    // Jeśli suma wysokości nie przekracza wartości z inputa, po prostu dodaj panel
+    fence.value.push(newValue);
+  }
+};
+
+watchEffect(() => {
+    if (isModalOpen.value) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  });
+
+// input guard
+const handleInput = (event: Event, type: String) => {
+    if (!event.target) return;
+    const target = event.target as HTMLInputElement; // Konwersja targetu na HTMLInputElement, żeby uzyskać dostęp do właściwości value, min, max, itp.
+    const value = parseInt(target.value, 10);
+
+        if(fence.value.length > 0){
+        const totalHeight = fence.value.reduce((sum, panel) => sum + panel.height + panel.top_space, 0)
+        fenceMinHeight.value = totalHeight
+    }
+
+    if(type === 'width'){
+        console.log("width changed")
+          if (value < fenceMinWidth.value) {
+    fenceWidth.value = fenceMinWidth.value
+  } else if (value > fenceMaxWidth.value) {
+    fenceWidth.value = fenceMaxWidth.value
+  }
+
+    }
+       if(type === 'height'){
+          if (value < fenceMinHeight.value) {
+    fenceHeight.value = fenceMinHeight.value
+  } else if (value > fenceMaxHeight.value) {
+    fenceHeight.value = fenceMaxHeight.value
+  }
+    }
+}
+
+</script>
+
 <template>
   <div class="visualisation-container">
      <div class="dimensions-container px-4">
@@ -31,107 +142,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
 
-// draw horizontal panels
-
-type singlePanel = {
-  id?: number,
-  height: number,
-  hex_color: string,
-  top_space: number,
-}
-
-
-
-const fence = ref<singlePanel[]>([])
-
-// draw wariables and min max of them
-
-let fenceHeight:Ref<number> = ref(1230)
-let fenceMinHeight:Ref<number> = ref(400)
-let fenceMaxHeight:Ref<number> = ref(2000)
-
-let fenceWidth:Ref<number> = ref(2500)
-let fenceMinWidth:Ref<number> = ref(400)
-let fenceMaxWidth:Ref<number> = ref(2800)
-
-
-// modal logic
-const isModalOpen = ref(false);
-
-if (isModalOpen) {
-    document.body.style.overflow = 'hidden';
-} else {
-    document.body.style.overflow = '';
-}
-
-const openModal = () => {
-  isModalOpen.value = true;
-  console.log(isModalOpen.value);
-};
-
-const handleModalUpdate = (newValue: boolean) => {
-  isModalOpen.value = newValue;
-};
-
-const addpanel = (newValue: singlePanel) => {
-   const totalHeight = fence.value.reduce((sum, panel) => sum + panel.height + panel.top_space, 0) + newValue.height + newValue.top_space;
-  // Sprawdź czy przekracza wartość z inputa
-  if(totalHeight > fenceMaxHeight.value)
-  {
-    window.alert("Całkowita wysokość przęsła przekracza warunki techniczne")
-    return;
-  }
-
-  if (totalHeight > fenceHeight.value) {
-    // Jeśli tak, wyświetl alert z opcjami
-    const decision = window.confirm("Całkowita wysokość paneli i przerw przekracza wielkość przęsła. Czy chcesz powiększyć przęsło?");
-
-    if (decision) {
-      // Jeśli użytkownik zdecyduje się powiększyć przęsło, zaktualizuj wartość inputa
-      fenceHeight.value = totalHeight;
-      fence.value.push(newValue);
-    } else {
-      // Jeśli użytkownik zdecyduje się anulować dodawanie panela, nie rób nic
-      return;
-    }
-  } else {
-    // Jeśli suma wysokości nie przekracza wartości z inputa, po prostu dodaj panel
-    fence.value.push(newValue);
-  }
-};
-
-// input guard
-const handleInput = (event: Event, type: String) => {
-    if (!event.target) return;
-    const target = event.target as HTMLInputElement; // Konwersja targetu na HTMLInputElement, żeby uzyskać dostęp do właściwości value, min, max, itp.
-    const value = parseInt(target.value, 10);
-
-        if(fence.value.length > 0){
-        const totalHeight = fence.value.reduce((sum, panel) => sum + panel.height + panel.top_space, 0)
-        fenceMinHeight.value = totalHeight
-    }
-
-    if(type === 'width'){
-        console.log("width changed")
-          if (value < fenceMinWidth.value) {
-    fenceWidth.value = fenceMinWidth.value
-  } else if (value > fenceMaxWidth.value) {
-    fenceWidth.value = fenceMaxWidth.value
-  }
-
-    }
-       if(type === 'height'){
-          if (value < fenceMinHeight.value) {
-    fenceHeight.value = fenceMinHeight.value
-  } else if (value > fenceMaxHeight.value) {
-    fenceHeight.value = fenceMaxHeight.value
-  }
-    }
-}
-
-</script>
 
 <style scoped>
 .vertical-text{
