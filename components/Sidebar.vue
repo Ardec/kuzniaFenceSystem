@@ -64,7 +64,7 @@ border-radius: 4px;
 background: #F0F0F0;
 box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
 transition: width 2s;
-z-index:99;
+z-index:1000;
 }
 .sidebar-header{
   width:100%;
@@ -72,7 +72,6 @@ z-index:99;
   align-items: center;
   justify-content: space-between;
   padding:0px 32px 0px 16px;
-  z-index:99;
 }
 .sidebar-middle
 {
