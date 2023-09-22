@@ -26,6 +26,8 @@
     :headerText="'Przerwy'"
     :bodyText="'Przerwy pomiędzy panelami służą jedynie wizualizacji'"
     />
+
+    <Cart />
 </div>
 
 

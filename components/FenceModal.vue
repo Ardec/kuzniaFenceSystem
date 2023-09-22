@@ -4,7 +4,7 @@
           <TextBlock
     :titleText="'kreator przęseł'"
     :headerText="'Dodaj nowy panel'"
-    :bodyText="'Przęsła Kuźnia można montować wewnątrz ram bramy przesuwnej, dwuskrzydłowej, furtki, balkonu, ramy na wymiar, bądź do samych słupów. Podaj najpierw szerokość oraz wysokość przęsła, które chcesz uzyskać.'"
+    :bodyText="'Przęsła Kuźnia można montować wewnątrz ram bramy przesuwnej, dwuskrzydłowej, furtki, balkonu, ramy na wymiar, bądź do samych słupów.'"
     />
     <div class="one-piece-visual m-4">
     <div class="panel" :style="{ height: panelWidth + 'px', backgroundColor: selectedPanel.hex }">
@@ -13,9 +13,6 @@
     </div>
     </div>
 
-      <!-- <label>Szerokość panela:</label>
-      <input v-model="panelWidth" type="number" placeholder="Wpisz szerokość"> -->
-      <!-- <label>Kolor:</label> -->
       <div class="dimension-width mx-4 mt-2">
             <label for="szerokosc_panela" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Szerokość (mm)</label>
             <input v-model="panelWidth" type="number" id="szerokosc_panela" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Szerokość" :min="fenceMinWidth" :max="fenceMaxWidth" @blur="handleInput($event, 'width')" required>
@@ -24,13 +21,14 @@
         <label for="color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Wybierz kolor (ral)</label>
         <select id="color" v-model="selectedPanel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         <option
-      v-for="panel in panels" 
+      v-for="panel in panels"
       :key="panel.color"
       :value="panel">
       {{ panel.color }}
     </option>
       </select>
-      Moj kolor {{selectedPanel.hex}}
+
+      {{"Selected panel" + selectedPanel.hex}}
       </div>
        <div class="dimension-width mx-4 mt-2">
             <label for="odstep" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Odstęp od następnego panela (mm)</label>
@@ -46,29 +44,61 @@
 
 <script lang="ts" setup>
 import usePanelData from "~/composables/usePanelData"
-const { panels } = usePanelData()
-console.log( panels )
+import useCart from '~/composables/useCart'
+import { CartItem } from '~/composables/useCart'
+import { Panel } from '~/composables/usePanelData'
+const { cart } = useCart()
 
+console.log("my_cart",cart)
+
+const { panels } = usePanelData()
 const props = defineProps({
   isOpen: Boolean
 })
-const emit = defineEmits({
-  updateIsOpen: Boolean
-})
+
+const panelWidth = ref<number>(200)
+const selectedPanel = ref<Panel>(panels[1])
+const profileSpacing = ref<number>(20)
+const profileSpacingMinWidth = ref<number>(2)
+const proeileSpacingMaxWidth = ref<number>(300)
+const panelMinWidth = ref<number>(90)
+const panelMaxWidth = ref<number>(300)
+
+type singlePanel = {
+  id?: number,
+  height: number,
+  hex_color: string,
+  top_space: number,
+}
+
+
+const emit = defineEmits(['updateIsOpen', 'addedPanel'])
+interface MyEmits {
+  updateIsOpen(value: boolean): void;
+  addedPanel(panel: singlePanel): void;
+}
+
+
 
 const closeModal = () => {
   emit('updateIsOpen', false);
 };
 
-
-const panelWidth = ref<number>(2000)
-const selectedPanel = ref<object>(panels[0])
-const profileSpacing = ref<number>(20)
-
-const profileSpacingMinWidth = ref<number>(2)
-const proeileSpacingMaxWidth = ref<number>(300)
-const panelMinWidth = ref<number>(90)
-const panelMaxWidth = ref<number>(300)
+const addPanel = () => {
+  const newCartItem: CartItem = {
+    productId: selectedPanel.value.id,
+    productName: selectedPanel.value.color,
+    quantity: 1,
+    price: selectedPanel.value.price,
+};
+  const newSinglePanel:singlePanel = {
+  height: panelWidth.value,
+  hex_color: selectedPanel.value.hex,
+  top_space:  profileSpacing.value,
+}
+  cart.value.push(newCartItem)
+  emit('addedPanel', newSinglePanel)
+}
 
 
 const handleInput = (event: Event, type: String) => {
@@ -77,7 +107,6 @@ const handleInput = (event: Event, type: String) => {
     const value = parseInt(target.value, 10);
 
     if(type === 'width'){
-        console.log("width changed")
           if (value < panelMinWidth.value) {
     panelWidth.value = panelMinWidth.value
   } else if (value > panelMaxWidth.value) {
@@ -86,7 +115,6 @@ const handleInput = (event: Event, type: String) => {
 
     }
        if(type === 'space'){
-        console.log("space changed")
           if (value < profileSpacingMinWidth.value) {
     profileSpacing.value = profileSpacingMinWidth.value
   } else if (value > proeileSpacingMaxWidth.value) {

@@ -1,4 +1,4 @@
-type Panel = {
+export type Panel = {
   id: number;
   color: string;
   hex: string;
@@ -37,6 +37,30 @@ export default function useMenuData(): { panels: Panel[] } {
       id: 4,
       color: '7016 struktura',
       hex: '#0e0e10',
+      min_height: 200,
+      max_height: 400,
+      price: 84.2,
+    },
+    {
+      id: 5,
+      color: 'Złoty dąb',
+      hex: '#7e4b26',
+      min_height: 200,
+      max_height: 400,
+      price: 84.2,
+    },
+    {
+      id: 6,
+      color: 'Orzech',
+      hex: '#4c2b20',
+      min_height: 200,
+      max_height: 400,
+      price: 84.2,
+    },
+    {
+      id: 6,
+      color: 'Winchester',
+      hex: '#724a25',
       min_height: 200,
       max_height: 400,
       price: 84.2,
