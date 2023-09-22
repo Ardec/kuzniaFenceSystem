@@ -140,6 +140,8 @@ const handleInput = (event: Event, type: String) => {
 .modal-overlay {
   position: fixed;
   z-index:1000;
+  overflow-y: auto;
+  touch-action: none;
   top: 0;
   left: 0;
   width: 100%;
