@@ -99,13 +99,15 @@ const addpanel = (newValue: singlePanel) => {
   }
 };
 
-// watchEffect(() => {
-//     if (isModalOpen.value) {
-//       document.body.style.overflow = 'hidden';
-//     } else {
-//       document.body.style.overflow = '';
-//     }
-//   });
+watchEffect(() => {
+    if (typeof window !== 'undefined') {
+        if (isModalOpen.value) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    }
+});
 
 // input guard
 
