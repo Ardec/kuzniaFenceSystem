@@ -13,6 +13,11 @@
             <input v-model="fenceHeight" type="number" id="wysokość_przesla" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Wysokość" :min="fenceMinHeight" :max="fenceMaxHeight" @blur="handleInput($event, 'height')" required>
         </div>
     </div>
+       <TextBlock
+    :titleText="'kreator przęseł'"
+    :headerText="'Mini wizualizacja'"
+    :bodyText="'Tak może wyglądać Twoje przęsło w widoku 2D od frontu. Elementy z prawej i lewej to ceowniki trzymające konstrukcję. Aby rozpocząć wciśnij przycisk dodaj element'"
+    />
     <div class="draw-container mx-4 flex">
       <div :style="{ height: fenceHeight/10 + 'px', maxHeight: fenceMaxHeight/10 + 'px' }" class="vertical-text m-2">{{fenceHeight}} mm</div>
       <div :style="{ width:fenceWidth/10+ 'px' , height:fenceHeight/10+'px', maxHeight: fenceMaxHeight/10 + 'px', maxWidth: fenceMaxWidth/10 + 'px'}" class="draw mt-8 mr-8">
@@ -29,6 +34,39 @@
       </div>
 
       <FenceModal :isOpen="isModalOpen" @updateIsOpen="handleModalUpdate" @addedPanel="addpanel" />
+      <!-- <FenceModal :isOpen="isModalOpen" @updateIsOpen="handleModalUpdate" @addedPanel="addpanel" /> -->
+            <TextBlock
+    :titleText="'kreator przęseł'"
+    :headerText="'Przybliżenie x6'"
+    :bodyText="'Poniżej przęsła zostały rozpisane w przybliżonym widoku aby można było dokładnie określić wymiary oraz przerwy. Domyślna przerwa to 20mm'"
+    />
+
+
+    <div class="x6container m-4" :style="{height: fenceHeight/10*6 + 'px'}" >
+      <div v-for="item in fence" :key="item.color" class="fence-vis" :style="{ height:item.height/10*6 +'px', backgroundColor: item.hex_color, marginTop:item.top_space/10*6 +'px'}">
+        <div class="actions-container">
+          <div class="actions">
+            <div class="description">
+              <div class="wys">Wysokość: {{item.height}} mm</div>
+              <div class="space">Przerwa: {{item.top_space}} mm </div>
+            </div>
+            <div class="button">
+                          <svg width="50" height="48" viewBox="0 0 50 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M38.6983 18.7188L33 13.4688L34.8771 11.7188C35.3911 11.2396 36.0226 11 36.7716 11C37.5207 11 38.1518 11.2396 38.6648 11.7188L40.5419 13.4688C41.0559 13.9479 41.324 14.5262 41.3464 15.2037C41.3687 15.8812 41.1229 16.4592 40.609 16.9375L38.6983 18.7188ZM36.7542 20.5625L22.5419 33.8125H16.8436V28.5L31.0559 15.25L36.7542 20.5625Z" fill="#FFFFFF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M1.18996 6H0.754211V0H49.0224V6H7.18996L7.18997 42H49.0224V48H0.754211V42H1.18997L1.18996 6Z" fill="url(#paint0_linear_130_393)"/>
+<defs>
+<linearGradient id="paint0_linear_130_393" x1="23.5639" y1="8" x2="62.7253" y2="55.7503" gradientUnits="userSpaceOnUse">
+<stop stop-color="#176EB0"/>
+<stop offset="1" stop-color="#004D7F"/>
+</linearGradient>
+</defs>
+</svg>
+            </div>
+
+          </div>
+          </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -61,15 +99,21 @@ let fenceMaxWidth:Ref<number> = ref(2800)
 
 // modal logic
 const isModalOpen = ref(false);
+const isEditModalOpen = ref(false);
+
 
 const openModal = () => {
   isModalOpen.value = true;
-  console.log(isModalOpen.value);
+};
+const openEditModal = () => {
+  isEditModalOpen.value = true;
 };
 
 const handleModalUpdate = (newValue: boolean) => {
   isModalOpen.value = newValue;
-  console.log(isModalOpen.value);
+};
+const handleEditModalUpdate = (newValue: boolean) => {
+  isEditModalOpen.value = newValue;
 };
 
 const addpanel = (newValue: singlePanel) => {
@@ -101,7 +145,7 @@ const addpanel = (newValue: singlePanel) => {
 
 watchEffect(() => {
     if (typeof window !== 'undefined') {
-        if (isModalOpen.value) {
+        if (isModalOpen.value || isEditModalOpen.value) {
             document.body.style.overflow = 'hidden';
         } else {
             document.body.style.overflow = '';
@@ -190,5 +234,42 @@ text-transform: uppercase;
   min-height: 9px;
   min-width: 100%;
 }
+
+.x6container{
+  border-left: 24px solid #3F3E3F;
+  display: flex;
+  flex-direction: column-reverse;
+  max-width:100vw;
+}
+.actions-container{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right:30px;
+}
+
+.actions{
+  min-height: 50px;
+  display:flex;
+  align-items: center;
+  color:white;
+  justify-content: center;
+  }
+  .button:hover{
+    opacity:0.9;
+    cursor:pointer;
+  }
+  .description{
+font-size: 14px;
+font-weight: 500;
+line-height: 20px;
+letter-spacing: 1.5px;
+text-transform: uppercase;
+padding-right:20px;
+display:flex;
+flex-direction: column;
+  }
 
 </style>

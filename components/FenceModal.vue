@@ -27,8 +27,6 @@
       {{ panel.color }}
     </option>
       </select>
-
-      {{"Selected panel" + selectedPanel.hex}}
       </div>
        <div class="dimension-width mx-4 mt-2">
             <label for="odstep" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Odstęp od następnego panela (mm)</label>
