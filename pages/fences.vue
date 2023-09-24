@@ -12,10 +12,7 @@
     :bodyText="'Tak może wyglądać Twoje przęsło w widoku 2D od frontu. Elementy z prawej i lewej to ceowniki trzymające konstrukcję. Aby rozpocząć wciśnij przycisk dodaj element'"
     />
 
-    <Visualisation
-    :ffwidth = f_width
-    :ffheight = f_height
-    />
+    <Visualisation />
       <TextBlock
     :titleText="'kreator przęseł'"
     :headerText="'Przybliżenie x6'"
@@ -27,7 +24,7 @@
     :bodyText="'Przerwy pomiędzy panelami służą jedynie wizualizacji'"
     />
 
-    <Cart />
+    <!-- <Cart /> -->
 </div>
 
 
