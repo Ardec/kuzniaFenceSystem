@@ -3,15 +3,15 @@ import usePanelData from "~/composables/usePanelData"
 import useCart from '~/composables/useCart'
 import { CartItem } from '~/composables/useCart'
 import { Panel } from '~/composables/usePanelData'
+
 const showToast = ref(false);
-
 const { cart } = useCart()
-
-console.log("my_cart",cart)
-
 const { panels } = usePanelData()
+
 const props = defineProps({
-  isOpen: Boolean
+  isOpen: Boolean,
+  actualRecord: Object as PropType<singlePanel>,
+  actualRecordPosition: Number,
 })
 
 const panelWidth = ref<number>(200)
@@ -28,7 +28,6 @@ type singlePanel = {
   hex_color: string,
   top_space: number,
 }
-
 
 const emit = defineEmits(['updateIsOpen', 'addedPanel'])
 interface MyEmits {
@@ -94,8 +93,8 @@ const handleInput = (event: Event, type: String) => {
     <div class="modal">
           <TextBlock
     :titleText="'kreator przęseł'"
-    :headerText="'Dodaj nowy panel'"
-    :bodyText="'Przęsła Kuźnia można montować wewnątrz ram bramy przesuwnej, dwuskrzydłowej, furtki, balkonu, ramy na wymiar, bądź do samych słupów.'"
+    :headerText="'Edytuj panel'"
+    :bodyText="'Tutaj edytujesz wybrany przez Ciebie panel'"
     />
     <div class="one-piece-visual m-4">
     <div class="panel" :style="{ height: panelWidth + 'px', backgroundColor: selectedPanel.hex }">
@@ -112,21 +111,23 @@ const handleInput = (event: Event, type: String) => {
         <label for="color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Wybierz kolor (ral)</label>
         <select id="color" v-model="selectedPanel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         <option
-        v-for="panel in panels"
-        :key="panel.color"
-        :value="panel">
-        {{ panel.color }}
+      v-for="panel in panels"
+      :key="panel.color"
+      :value="panel">
+      {{ panel.color }}
     </option>
       </select>
       </div>
        <div class="dimension-width mx-4 mt-2">
             <label for="odstep" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Odstęp od następnego panela (mm)</label>
-            <input v-model="profileSpacing" type="number" id="odstep" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Szerokość" :min="panelMinWidth" :max="panelMaxWidth" @blur="handleInput($event, 'space')" required>
+            <input v-model="profileSpacing" type="number" id="odstep" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Szerokość" @blur="handleInput($event, 'space')" required>
       </div>
       <div class="bottom-actions m-4 mt-8">
         <button class="add-btn text-white px-4 py-2" @click="addPanel">Zapisz</button>
         <button class="add-btn text-white px-4 py-2" @click="closeModal">Zamknij</button>
-        <Toast :visible="showToast" :message="'Nowy panel został dodany!'" @update:localVisible="updateLocalVisible"/>
+        <Toast :visible="showToast" :message="'Nowy panel został edytowany'" @update:localVisible="updateLocalVisible"/>
+          2. {{ actualRecord }}
+          3. {{ actualRecordPosition }}
       </div>
     </div>
   </div>

@@ -34,7 +34,7 @@
       </div>
 
       <FenceModal :isOpen="isModalOpen" @updateIsOpen="handleModalUpdate" @addedPanel="addpanel" />
-      <!-- <FenceModal :isOpen="isModalOpen" @updateIsOpen="handleModalUpdate" @addedPanel="addpanel" /> -->
+      <FenceEditModal :isOpen="isEditModalOpen" :actualRecord="fenceRecord" :actualRecordPosition="fenceRecordPosition" @updateIsOpen="handleEditModalUpdate" />
             <TextBlock
     :titleText="'kreator przęseł'"
     :headerText="'Przybliżenie x6'"
@@ -43,14 +43,14 @@
 
 
     <div class="x6container m-4" :style="{height: fenceHeight/10*6 + 'px'}" >
-      <div v-for="item in fence" :key="item.color" class="fence-vis" :style="{ height:item.height/10*6 +'px', backgroundColor: item.hex_color, marginTop:item.top_space/10*6 +'px'}">
+      <div v-for="(item,index) in fence" :key="item.color" class="fence-vis" :style="{ height:item.height/10*6 +'px', backgroundColor: item.hex_color, marginTop:item.top_space/10*6 +'px'}">
         <div class="actions-container">
           <div class="actions">
             <div class="description">
               <div class="wys">Wysokość: {{item.height}} mm</div>
               <div class="space">Przerwa: {{item.top_space}} mm </div>
             </div>
-            <div class="button">
+            <div @click="openEditModal(index)" class="button">
                           <svg width="50" height="48" viewBox="0 0 50 48" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M38.6983 18.7188L33 13.4688L34.8771 11.7188C35.3911 11.2396 36.0226 11 36.7716 11C37.5207 11 38.1518 11.2396 38.6648 11.7188L40.5419 13.4688C41.0559 13.9479 41.324 14.5262 41.3464 15.2037C41.3687 15.8812 41.1229 16.4592 40.609 16.9375L38.6983 18.7188ZM36.7542 20.5625L22.5419 33.8125H16.8436V28.5L31.0559 15.25L36.7542 20.5625Z" fill="#FFFFFF"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M1.18996 6H0.754211V0H49.0224V6H7.18996L7.18997 42H49.0224V48H0.754211V42H1.18997L1.18996 6Z" fill="url(#paint0_linear_130_393)"/>
@@ -96,6 +96,9 @@ let fenceWidth:Ref<number> = ref(2500)
 let fenceMinWidth:Ref<number> = ref(400)
 let fenceMaxWidth:Ref<number> = ref(2800)
 
+let fenceRecord: Ref<singlePanel | null> = ref(null);
+let fenceRecordPosition:Ref<number> = ref(0)
+
 
 // modal logic
 const isModalOpen = ref(false);
@@ -105,8 +108,13 @@ const isEditModalOpen = ref(false);
 const openModal = () => {
   isModalOpen.value = true;
 };
-const openEditModal = () => {
-  isEditModalOpen.value = true;
+
+const openEditModal = (index:number) => {
+  isEditModalOpen.value = true
+  fenceRecord.value = fence.value[index]
+  fenceRecordPosition.value = index
+  console.log("fenceRecord", fenceRecord)
+  console.log("fenceRecordPosition",fenceRecordPosition)
 };
 
 const handleModalUpdate = (newValue: boolean) => {
